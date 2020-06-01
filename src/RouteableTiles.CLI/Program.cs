@@ -94,35 +94,9 @@ namespace RouteableTiles.CLI
                     var progress = new OsmSharp.Streams.Filters.OsmStreamFilterProgress();
                     progress.RegisterSource(source);
                     
-                    // filter out routeable data only.
-                    var nodeIndex = new OsmIdIndex();
-                    while (progress.MoveNext(true, false, true))
-                    {
-                        if (!(progress.Current() is Way w) || w.Nodes == null) continue;
-                        if (w.Tags == null || !w.Tags.ContainsKey("highway")) continue;
-                
-                        foreach (var n in w.Nodes)
-                        {
-                            nodeIndex.Add(n);
-                        }
-                    }
-
                     var filtered = new OsmEnumerableStreamSource(progress.Where(x =>
                     {
-                        if (x is Node)
-                        {
-                            return nodeIndex.Contains(x.Id.Value);
-                        }
-                        else if (x is Way)
-                        {
-                            return x.Tags != null && x.Tags.ContainsKey("highway");
-                        }
-                        else
-                        {
-                            if (x.Tags == null) return false;
-                            return x.Tags.ContainsKey("route") ||
-                                   x.Tags.ContainsKey("restriction");
-                        }
+                        return true;
                     }));
 
                     // splitting tiles and writing indexes.
