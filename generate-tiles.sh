@@ -12,6 +12,12 @@ osmosis \
   --read-pbf "${SOURCE_PBF}" \
   --log-progress \
   --tag-filter reject-relations \
+  --tag-filter reject-ways \
+  --tag-filter accept-nodes entrance=* amenity=loading_dock addr:housenumber=* \
+  \
+  --read-pbf "${SOURCE_PBF}" \
+  --log-progress \
+  --tag-filter reject-relations \
   --tag-filter accept-ways building=* building:part=* \
   --used-node \
   \
@@ -21,7 +27,7 @@ osmosis \
   --used-way \
   --used-node \
   \
-  --merge \
+  --merge --merge \
   --write-pbf "${FILTERED}"
 
 sudo rm -rf "${DB_DIR}"
