@@ -11,19 +11,18 @@ DB_DIR="${PWD}/helsinki-buildings"
 osmosis \
   --read-pbf "${SOURCE_PBF}" \
   --log-progress \
-  --tag-filter accept-ways building=* \
+  --tag-filter reject-relations \
+  --tag-filter accept-ways building=* building:part=* \
   --used-node \
   \
   --read-pbf "${SOURCE_PBF}" \
   --log-progress \
-  --tag-filter accept-relations type=associated_entrance,multipolygon \
-  --used-node \
+  --tag-filter accept-relations type=associated_entrance building=* building:part=* \
   --used-way \
+  --used-node \
   \
   --merge \
   --write-pbf "${FILTERED}"
-# FIXME: Try later
-#--tag-filter reject-relations building:part=yes \
 
 sudo rm -rf "${DB_DIR}"
 mkdir -p "${DB_DIR}"
